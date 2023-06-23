@@ -14,9 +14,15 @@ const {
 const { errorHandler } = require('../../helpers/errorHandler')
 
 const addContactSchema = Joi.object({
-  name: Joi.string().alphanum().required(),
-  email: Joi.string().required(),
+  name: Joi.string().required(),
+  email: Joi.string().pattern(new RegExp('^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$')).required(),
   phone: Joi.string().required(),
+})
+
+const putContactSchema = Joi.object({
+  name: Joi.string().alphanum(),
+  email: Joi.string().pattern(new RegExp('^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$')),
+  phone: Joi.string(),
 })
 
 router.get('/', async (req, res, next) => {
@@ -40,12 +46,12 @@ router.get('/:contactId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const validationContact = addContactSchema.validate(req.body)
-    if (validationContact.error) {
-      throw errorHandler(400, `missing required ${validationContact.error.details[0].context.label} field`)
+    const {value, error} = addContactSchema.validate(req.body)
+    if (error) {
+      throw errorHandler(400, `Missing or invalid required ${error.details[0].context.label} field`)
     }
 
-    const newContact = await addContact(validationContact.value)
+    const newContact = await addContact(value)
     res.status(201).json(newContact)
   } catch (error) {
     next(error)
@@ -65,7 +71,11 @@ router.delete('/:contactId', async (req, res, next) => {
 router.put('/:contactId', async (req, res, next) => {
   try {
     if (Object.keys(req.body).length === 0) throw errorHandler(400, 'missing fields')
-    const result = await updateContact(req.params.contactId, req.body)
+    const {value, error} = putContactSchema.validate(req.body)
+    if (error) {
+      throw errorHandler(400, `Invalid ${error.details[0].context.label} field`)
+    }
+    const result = await updateContact(req.params.contactId, value)
     if (!result) throw errorHandler(404, 'Not found')
     res.json(result)
   } catch (error) {
