@@ -2,6 +2,8 @@ const express = require('express')
 
 const router = express.Router()
 
+const Joi = require('joi');
+
 const {
   listContacts,
   getContactById,
@@ -9,14 +11,20 @@ const {
   addContact,
   updateContact,
 } = require('../../models/contacts')
-const {errorHandler} = require('../../helpers/errorHandler')
+const { errorHandler } = require('../../helpers/errorHandler')
+
+const contactSchema = Joi.object({
+  name: Joi.string().alphanum().required(),
+  email: Joi.string().required(),
+  phone: Joi.string().required(),
+})
 
 router.get('/', async (req, res, next) => {
   try {
     const result = await listContacts()
     res.json(result)
   } catch (error) {
-    res.status(500).json({message: error.message})
+    next(error)
   }
 })
 
@@ -26,17 +34,26 @@ router.get('/:contactId', async (req, res, next) => {
     if (!result) throw errorHandler(404, 'Not found')
     res.json(result)
   } catch (error) {
-    const {status, message} = error
-    res.status(status).json({message})
+    next(error)
   }
 })
 
 router.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
+  try {
+    const validationContact = contactSchema.validate(req.body)
+    if (validationContact.error) {
+      throw errorHandler(400, `missing required ${validationContact.error.details[0].context.label} field`)
+    }
+
+    const newContact = await addContact(validationContact.value)
+    res.status(201).json(newContact)
+  } catch (error) {
+    next(error)
+  }
 })
 
 router.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
+  
 })
 
 router.put('/:contactId', async (req, res, next) => {
