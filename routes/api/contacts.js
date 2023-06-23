@@ -9,22 +9,25 @@ const {
   addContact,
   updateContact,
 } = require('../../models/contacts')
+const {errorHandler} = require('../../helpers/errorHandler')
 
 router.get('/', async (req, res, next) => {
   try {
     const result = await listContacts()
     res.json(result)
   } catch (error) {
-    next(error)
+    res.status(500).json({message: error.message})
   }
 })
 
 router.get('/:contactId', async (req, res, next) => {
   try {
     const result = await getContactById(req.params.contactId)
+    if (!result) throw errorHandler(404, 'Not found')
     res.json(result)
   } catch (error) {
-    next(error)
+    const {status, message} = error
+    res.status(status).json({message})
   }
 })
 
