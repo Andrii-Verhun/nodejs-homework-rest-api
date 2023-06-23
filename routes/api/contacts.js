@@ -53,7 +53,13 @@ router.post('/', async (req, res, next) => {
 })
 
 router.delete('/:contactId', async (req, res, next) => {
-  
+  try {
+    const result = await removeContact(req.params.contactId)
+    if (result) throw errorHandler(404, 'Not found')
+    res.json({message: 'contact deleted'})
+  } catch (error) {
+    next(error)
+  }
 })
 
 router.put('/:contactId', async (req, res, next) => {
