@@ -13,7 +13,7 @@ const {
 } = require('../../models/contacts')
 const { errorHandler } = require('../../helpers/errorHandler')
 
-const contactSchema = Joi.object({
+const addContactSchema = Joi.object({
   name: Joi.string().alphanum().required(),
   email: Joi.string().required(),
   phone: Joi.string().required(),
@@ -40,7 +40,7 @@ router.get('/:contactId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const validationContact = contactSchema.validate(req.body)
+    const validationContact = addContactSchema.validate(req.body)
     if (validationContact.error) {
       throw errorHandler(400, `missing required ${validationContact.error.details[0].context.label} field`)
     }
@@ -63,7 +63,14 @@ router.delete('/:contactId', async (req, res, next) => {
 })
 
 router.put('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
+  try {
+    if (Object.keys(req.body).length === 0) throw errorHandler(400, 'missing fields')
+    const result = await updateContact(req.params.contactId, req.body)
+    if (!result) throw errorHandler(404, 'Not found')
+    res.json(result)
+  } catch (error) {
+    next(error)
+  }
 })
 
 module.exports = router
