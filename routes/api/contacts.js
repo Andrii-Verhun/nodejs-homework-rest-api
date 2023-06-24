@@ -2,28 +2,15 @@ const express = require('express')
 
 const router = express.Router()
 
-const Joi = require('joi');
-
 const {
   listContacts,
   getContactById,
   removeContact,
   addContact,
   updateContact,
-} = require('../../models/contacts')
+} = require('../../controlle/contacts')
 const { errorHandler } = require('../../helpers/errorHandler')
-
-const addContactSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().pattern(new RegExp('^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$')).required(),
-  phone: Joi.string().required(),
-})
-
-const putContactSchema = Joi.object({
-  name: Joi.string().alphanum(),
-  email: Joi.string().pattern(new RegExp('^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$')),
-  phone: Joi.string(),
-})
+const { addContactSchema, putContactSchema } = require('../../schemas/schemas')
 
 router.get('/', async (req, res, next) => {
   try {
