@@ -7,7 +7,7 @@ const addContactSchema = Joi.object({
 })
 
 const putContactSchema = Joi.object({
-  name: Joi.string().alphanum(),
+  name: Joi.string(),
   email: Joi.string().pattern(new RegExp('^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$')),
   phone: Joi.string(),
 })
