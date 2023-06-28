@@ -4,7 +4,8 @@ const {
   removeContact,
   addContact,
   updateContact,
-} = require('../models/contacts')
+  updateStatusContact
+} = require('../service/index')
 const { errorHandler } = require('../helpers/errorHandler')
 const { addContactSchema, putContactSchema } = require('../schemas/schemas')
 
@@ -66,10 +67,21 @@ const controlPutContactById = async (req, res, next) => {
   }
 }
 
+const controlIsFavorite = async (req, res, next) => {
+  try {
+    if (Object.keys(req.body).length === 0) throw errorHandler(400, 'missing field favorite')
+    const result = await updateStatusContact(req.params.contactId, req.body)
+    res.json(result)
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
-    controlGetAll,
-    controlGetById,
-    controlAddNewContact,
-    controlDeleteContact,
-    controlPutContactById,
+  controlGetAll,
+  controlGetById,
+  controlAddNewContact,
+  controlDeleteContact,
+  controlPutContactById,
+  controlIsFavorite
 }
