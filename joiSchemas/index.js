@@ -12,7 +12,12 @@ const putContactSchema = Joi.object({
   phone: Joi.string(),
 })
 
+const patchContactFavorite = Joi.object({
+  favorite: Joi.boolean().required(),
+})
+
 module.exports = {
-    addContactSchema,
-    putContactSchema,
+  addContactSchema,
+  putContactSchema,
+  patchContactFavorite,
 }
