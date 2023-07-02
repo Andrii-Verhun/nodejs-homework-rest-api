@@ -7,8 +7,9 @@ const {
   controlGetById,
   controlAddNewContact,
   controlDeleteContact,
-  controlPutContactById
-} = require('../../controlle/controlle')
+  controlPutContactById,
+  controlUpdateFavorite
+} = require('../../controllers/contacts/index')
 
 router.get('/', controlGetAll )
 
@@ -19,5 +20,7 @@ router.post('/', controlAddNewContact)
 router.delete('/:contactId', controlDeleteContact)
 
 router.put('/:contactId', controlPutContactById)
+
+router.patch('/:contactId/favorite', controlUpdateFavorite)
 
 module.exports = router
