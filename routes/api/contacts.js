@@ -1,4 +1,5 @@
 const express = require('express')
+const { auth } = require('../../middleware')
 
 const router = express.Router()
 
@@ -11,16 +12,16 @@ const {
   controlUpdateFavorite
 } = require('../../controllers/contacts/index')
 
-router.get('/', controlGetAll )
+router.get('/',auth ,controlGetAll )
 
-router.get('/:contactId', controlGetById)
+router.get('/:contactId',auth , controlGetById)
 
-router.post('/', controlAddNewContact)
+router.post('/',auth , controlAddNewContact)
 
-router.delete('/:contactId', controlDeleteContact)
+router.delete('/:contactId',auth , controlDeleteContact)
 
-router.put('/:contactId', controlPutContactById)
+router.put('/:contactId',auth , controlPutContactById)
 
-router.patch('/:contactId/favorite', controlUpdateFavorite)
+router.patch('/:contactId/favorite',auth , controlUpdateFavorite)
 
 module.exports = router
