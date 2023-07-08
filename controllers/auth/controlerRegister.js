@@ -1,11 +1,11 @@
 const { registerUser } = require('../../service/')
-const { newUserSchema } = require('../../joiSchemas')
+const { userSchema } = require('../../joiSchemas')
 const { errorHandler } = require('../../helpers/errorHandler')
 const bcrypt = require('bcrypt')
 
 const controlerRegister = async (req, res, next) => {
     try {
-        const { value, error } = newUserSchema.validate(req.body)
+        const { value, error } = userSchema.validate(req.body)
         if (error) {
             throw errorHandler(400, `Missing or invalid required ${error.details[0].context.label} field`)
         }

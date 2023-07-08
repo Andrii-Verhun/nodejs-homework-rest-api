@@ -29,6 +29,13 @@ const registerUser = (body) => {
     return User.create(body)
 }
 
+const loginUser = (email, token = null) => {
+    if (token) {
+        return User.findOneAndUpdate({email}, {token})
+    }
+    return User.findOne({email})
+}
+
 module.exports = {
     listContacts,
     getContactById,
@@ -37,4 +44,5 @@ module.exports = {
     updateContact,
     updateStatusContact,
     registerUser,
+    loginUser,
 }
