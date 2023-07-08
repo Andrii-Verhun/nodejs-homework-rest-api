@@ -37,6 +37,10 @@ const loginUser = (email, token = null) => {
     return User.findOne({email})
 }
 
+const updateSubscription = (id, type) => {
+    return User.findByIdAndUpdate({_id: id}, {subscription: type}, {new: true})
+}
+
 const getUser = (id) => {
     return User.findOne({_id: id})
 }
@@ -54,6 +58,7 @@ module.exports = {
     updateStatusContact,
     registerUser,
     loginUser,
+    updateSubscription,
     getUser,
     logoutUser,
 }

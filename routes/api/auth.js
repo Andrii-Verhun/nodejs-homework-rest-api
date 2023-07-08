@@ -2,6 +2,7 @@ const express = require('express')
 const {
     controlerRegister,
     controlerLogin,
+    controlerSubscription,
     controlerLogout,
     controlerCurrent,
 } = require('../../controllers/auth')
@@ -11,7 +12,8 @@ const router = express.Router()
 
 router.post('/register', controlerRegister)
 router.get('/login', controlerLogin)
-router.get('/logout',auth , controlerLogout)
-router.get('/current',auth , controlerCurrent)
+router.patch('/', auth, controlerSubscription)
+router.get('/logout', auth, controlerLogout)
+router.get('/current', auth, controlerCurrent)
 
 module.exports = router
