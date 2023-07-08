@@ -1,4 +1,5 @@
 const Contacts = require('./schema/contacts')
+const User = require('./schema/user')
 
 const listContacts = () => {
     return Contacts.find()
@@ -24,11 +25,16 @@ const updateStatusContact = (id, body) => {
     return Contacts.findByIdAndUpdate({ _id: id }, body, { new: true })
 }
 
+const registerUser = (body) => {
+    return User.create(body)
+}
+
 module.exports = {
-  listContacts,
-  getContactById,
-  removeContact,
-  addContact,
-  updateContact,
-  updateStatusContact,
+    listContacts,
+    getContactById,
+    removeContact,
+    addContact,
+    updateContact,
+    updateStatusContact,
+    registerUser,
 }
