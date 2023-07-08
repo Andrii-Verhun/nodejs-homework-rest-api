@@ -36,6 +36,10 @@ const loginUser = (email, token = null) => {
     return User.findOne({email})
 }
 
+const getUser = (id) => {
+    return User.findOne({_id: id})
+}
+
 module.exports = {
     listContacts,
     getContactById,
@@ -45,4 +49,5 @@ module.exports = {
     updateStatusContact,
     registerUser,
     loginUser,
+    getUser,
 }
