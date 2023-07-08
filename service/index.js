@@ -1,8 +1,8 @@
 const Contacts = require('./schema/contacts')
 const User = require('./schema/user')
 
-const listContacts = () => {
-    return Contacts.find()
+const listContacts = (skip, limit) => {
+    return Contacts.find().skip(skip).limit(limit)
 }
 
 const getContactById = (id) => {
