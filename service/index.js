@@ -40,6 +40,10 @@ const getUser = (id) => {
     return User.findOne({_id: id})
 }
 
+const logoutUser = (id) => {
+    return User.findByIdAndUpdate({_id: id}, {token: ''})
+}
+
 module.exports = {
     listContacts,
     getContactById,
@@ -50,4 +54,5 @@ module.exports = {
     registerUser,
     loginUser,
     getUser,
+    logoutUser,
 }

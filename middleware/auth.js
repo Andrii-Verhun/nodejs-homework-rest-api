@@ -10,7 +10,7 @@ const auth = async (req, res, next) => {
         const isValidToken = jwt.verify(token, JWT_SECRET)
         
         const user = await getUser(isValidToken.id)
-        if (!user || token ==! user.token) throw errorHandler(401, 'Not authorized')
+        if (!user || token !== user.token) throw errorHandler(401, 'Not authorized')
         
         req.user = user
         next()
