@@ -1,7 +1,8 @@
 const Contacts = require('./schema/contacts')
 const User = require('./schema/user')
 
-const listContacts = (skip, limit) => {
+const listContacts = (skip, limit, favorite) => {
+    if (favorite) return Contacts.find({favorite}).skip(skip).limit(limit)
     return Contacts.find().skip(skip).limit(limit)
 }
 
