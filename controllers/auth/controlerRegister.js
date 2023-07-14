@@ -2,6 +2,7 @@ const { registerUser } = require('../../service/')
 const { userSchema } = require('../../joiSchemas')
 const { errorHandler } = require('../../helpers/errorHandler')
 const bcrypt = require('bcrypt')
+const gravatar = require('gravatar')
 
 const controlerRegister = async (req, res, next) => {
     try {
@@ -17,6 +18,7 @@ const controlerRegister = async (req, res, next) => {
         const result = await registerUser({
             email,
             password: hachedPassword,
+            avatarURL: gravatar.url(email, {s: 100}, true),
         })
 
         res.status(201).json(result)
