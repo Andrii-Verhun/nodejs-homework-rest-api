@@ -1,6 +1,7 @@
 const fs = require('fs/promises')
 const path = require('path')
-const Jimp = require("jimp");
+const Jimp = require("jimp")
+const { updateAvatar } = require('../../service')
 
 const controlUploadAvatar = async (req, res, next) => {
     const { originalname } = req.file
@@ -13,6 +14,7 @@ const controlUploadAvatar = async (req, res, next) => {
 
     try {
         await fs.unlink(path.join(__dirname, '../../tmp', originalname))
+        await updateAvatar(user.id, `http://localhost:3000/avatars/${uniqueName}`)
     } catch (error) {
         next(error)
     }

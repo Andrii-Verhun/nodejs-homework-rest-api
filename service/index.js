@@ -49,6 +49,10 @@ const logoutUser = (id) => {
     return User.findByIdAndUpdate({_id: id}, {token: ''})
 }
 
+const updateAvatar = (id, avatarURL) => {
+    return User.findByIdAndUpdate({_id: id}, {avatarURL})
+}
+
 module.exports = {
     listContacts,
     getContactById,
@@ -61,4 +65,5 @@ module.exports = {
     updateSubscription,
     getUser,
     logoutUser,
+    updateAvatar,
 }
