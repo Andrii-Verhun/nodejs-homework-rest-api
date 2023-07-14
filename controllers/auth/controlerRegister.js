@@ -18,7 +18,7 @@ const controlerRegister = async (req, res, next) => {
         const result = await registerUser({
             email,
             password: hachedPassword,
-            avatarURL: gravatar.url(email, {s: 100}, true),
+            avatarURL: gravatar.url(email, {s: 250}, true),
         })
 
         res.status(201).json(result)
