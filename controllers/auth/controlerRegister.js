@@ -1,6 +1,6 @@
 const { registerUser } = require('../../service/')
 const { userSchema } = require('../../joiSchemas')
-const sendEmail = require('../../helpers/sendEmail')
+const { sendEmail } = require('../../service')
 const { errorHandler } = require('../../helpers/errorHandler')
 const bcrypt = require('bcrypt')
 const gravatar = require('gravatar')

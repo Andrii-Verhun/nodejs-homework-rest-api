@@ -1,4 +1,4 @@
-const { verifyUser } = require('../../service/index')
+const { verifyUser } = require('../../service')
 const { errorHandler } = require('../../helpers/errorHandler')
 
 

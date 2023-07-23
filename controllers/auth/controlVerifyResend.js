@@ -1,7 +1,7 @@
 const { loginUser } = require('../../service')
 const { errorHandler } = require('../../helpers/errorHandler')
 const { userEmailSchema } = require('../../joiSchemas')
-const sendEmail = require('../../helpers/sendEmail')
+const { sendEmail } = require('../../service')
 
 const controlVerifyResend = async (req, res, next) => {
     try {

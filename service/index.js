@@ -13,7 +13,9 @@ const {
     updateSubscription,
     getUser,
     logoutUser,
-    updateAvatar,} = require('./user')
+    updateAvatar, } = require('./user')
+    
+const sendEmail = require('./email/sendEmail')
 
 module.exports = {
     listContacts,
@@ -29,4 +31,5 @@ module.exports = {
     getUser,
     logoutUser,
     updateAvatar,
+    sendEmail,
 }
