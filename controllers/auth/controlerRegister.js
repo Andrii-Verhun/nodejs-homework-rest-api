@@ -1,8 +1,10 @@
 const { registerUser } = require('../../service/')
 const { userSchema } = require('../../joiSchemas')
+const sendEmail = require('../../helpers/sendEmail')
 const { errorHandler } = require('../../helpers/errorHandler')
 const bcrypt = require('bcrypt')
 const gravatar = require('gravatar')
+const { v4: uuidv4 } = require('uuid')
 
 const controlerRegister = async (req, res, next) => {
     try {
@@ -14,12 +16,16 @@ const controlerRegister = async (req, res, next) => {
         const { email, password } = value
         const salt = await bcrypt.genSalt()
         const hachedPassword = await bcrypt.hash(password, salt)
+        const verificationToken = uuidv4()
 
         const result = await registerUser({
             email,
             password: hachedPassword,
+            verificationToken,
             avatarURL: gravatar.url(email, {s: 250}, true),
         })
+
+        await sendEmail(email, verificationToken)
 
         res.status(201).json(result)
     } catch (error) {

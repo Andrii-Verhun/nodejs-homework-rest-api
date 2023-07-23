@@ -16,6 +16,7 @@ const controlerLogin = async (req, res, next) => {
         const { email, password } = value
         const user = await loginUser(email)
         if (!user) throw errorHandler(401, 'Email is wrong')
+        if (!user.verify) throw errorHandler(401, 'Please verify your email')
 
         const isValidPassword = await bcrypt.compare(password, user.password)
         if (!isValidPassword) throw errorHandler(401, 'Password is wrong')

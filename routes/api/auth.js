@@ -1,6 +1,8 @@
 const express = require('express')
 const {
     controlerRegister,
+    controlVerify,
+    controlVerifyResend,
     controlerLogin,
     controlerSubscription,
     controlerLogout,
@@ -12,6 +14,8 @@ const { auth, upload } = require('../../middleware')
 const router = express.Router()
 
 router.post('/register', controlerRegister)
+router.get('/verify/:verificationToken', controlVerify)
+router.post('/verify', controlVerifyResend)
 router.get('/login', controlerLogin)
 router.patch('/', auth, controlerSubscription)
 router.get('/logout', auth, controlerLogout)

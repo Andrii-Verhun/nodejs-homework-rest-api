@@ -1,57 +1,19 @@
-const Contacts = require('./schema/contacts')
-const User = require('./schema/user')
-
-const listContacts = (skip, limit, favorite) => {
-    if (favorite) return Contacts.find({favorite}).skip(skip).limit(limit)
-    return Contacts.find().skip(skip).limit(limit)
-}
-
-const getContactById = (id) => {
-    return Contacts.findOne({_id: id})
-}
-
-const addContact = (body) => {
-    return Contacts.create(body)
-}
-
-const removeContact = (id) => {
-    return Contacts.findByIdAndRemove({_id: id})
-}
-
-const updateContact = (id, body) => {
-    return Contacts.findByIdAndUpdate({_id: id}, body, {new: true})
-}
-
-const updateStatusContact = (id, body) => {
-    return Contacts.findByIdAndUpdate({ _id: id }, body, { new: true })
-}
-
-const registerUser = (body) => {
-    return User.create(body)
-}
-
-const loginUser = (email, token = null) => {
-    if (token) {
-        return User.findOneAndUpdate({email}, {token})
-    }
-    return User.findOne({email})
-}
-
-const updateSubscription = (id, type) => {
-    return User.findByIdAndUpdate({_id: id}, {subscription: type}, {new: true})
-}
-
-const getUser = (id) => {
-    return User.findOne({_id: id})
-}
-
-const logoutUser = (id) => {
-    return User.findByIdAndUpdate({_id: id}, {token: ''})
-}
-
-const updateAvatar = (id, avatarURL) => {
-    return User.findByIdAndUpdate({_id: id}, {avatarURL})
-}
+const {
+    listContacts,
+    getContactById,
+    removeContact,
+    addContact,
+    updateContact,
+    updateStatusContact, } = require('./contacts')
+    
+const {
+    registerUser,
+    verifyUser,
+    loginUser,
+    updateSubscription,
+    getUser,
+    logoutUser,
+    updateAvatar,} = require('./user')
 
 module.exports = {
     listContacts,
@@ -61,6 +23,7 @@ module.exports = {
     updateContact,
     updateStatusContact,
     registerUser,
+    verifyUser,
     loginUser,
     updateSubscription,
     getUser,

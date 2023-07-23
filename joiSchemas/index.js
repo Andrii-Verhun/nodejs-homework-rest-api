@@ -21,9 +21,14 @@ const userSchema = Joi.object({
   password: Joi.string().required().min(6).max(30)
 })
 
+const userEmailSchema = Joi.object({
+  email: Joi.string().pattern(new RegExp('^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$')).required()
+})
+
 module.exports = {
   addContactSchema,
   putContactSchema,
   patchContactFavorite,
   userSchema,
+  userEmailSchema,
 }
